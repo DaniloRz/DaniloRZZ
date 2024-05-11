@@ -1,0 +1,109 @@
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+}
+
+let num1 = '';
+let num2 = '';
+let operator = '';
+let result = '';
+let displayText = '';
+
+function setup() {
+  createCanvas(300, 400);
+  textSize(32);
+  textAlign(RIGHT, BOTTOM);
+  
+  // Botões para números
+  for (let i = 0; i < 10; i++) {
+    createButton(i.toString())
+      .position(30 + (i % 3) * 60, 180 + Math.floor(i / 3) * 60)
+      .size(50, 50)
+      .mousePressed(() => appendNumber(i.toString()));
+  }
+  
+  // Botões para operações
+  const operations = ['+', '-', '*', '/'];
+  for (let i = 0; i < operations.length; i++) {
+    createButton(operations[i])
+      .position(210, 180 + i * 60)
+      .size(50, 50)
+      .mousePressed(() => setOperator(operations[i]));
+  }
+  
+  // Botão de igual
+  createButton('=')
+    .position(150, 300)
+    .size(100, 50)
+    .mousePressed(calculate);
+  
+  // Botão de limpar
+  createButton('C')
+    .position(30, 300)
+    .size(100, 50)
+    .mousePressed(clearAll);
+}
+
+function draw() {
+  background(255);
+  
+  // Exibir números e operador
+  text(displayText, width - 20, 50);
+}
+
+function appendNumber(n) {
+  if (operator === '') {
+    num1 += n;
+  } else {
+    num2 += n;
+  }
+  updateDisplay();
+}
+
+function setOperator(op) {
+  operator = op;
+  updateDisplay();
+}
+
+function calculate() {
+  num1 = parseFloat(num1);
+  num2 = parseFloat(num2);
+  
+  switch (operator) {
+    case '+':
+      result = num1 + num2;
+      break;
+    case '-':
+      result = num1 - num2;
+      break;
+    case '*':
+      result = num1 * num2;
+      break;
+    case '/':
+      result = num1 / num2;
+      break;
+    default:
+      break;
+  }
+  
+  displayText = result.toString();
+  num1 = '';
+  num2 = '';
+  operator = '';
+}
+
+function clearAll() {
+  num1 = '';
+  num2 = '';
+  operator = '';
+  result = '';
+  displayText = '';
+}
+
+function updateDisplay() {
+  displayText = num1 + ' ' + operator + ' ' + num2;
+}
+
